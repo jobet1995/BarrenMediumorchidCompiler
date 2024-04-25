@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Service from "./Service";
 import Util from "../../util";
-import { response } from "express";
 
 export default function UserAccountCreate(props) {
   const [userAccount, setUserAccount] = useState({});
