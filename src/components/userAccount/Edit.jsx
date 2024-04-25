@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import Service from "./Service";
 import Util from "../../util";
 
-export default function userAccountEdit(props) {
+export default function UserAccountEdit(props) {
   const [userAccount, setUserAccount] = useState({});
-  const [userAccountRoles, setUserAccountRoles] = useState([]);
+  const [userAccountUserRoles, setUserAccountUserRoles] = useState([]);
   const [roles, setRoles] = useState([]);
   const [errors, setErrors] = useState({});
 
@@ -18,7 +18,7 @@ export default function userAccountEdit(props) {
   function get() {
     return Service.edit(props.match.params.id).then((response) => {
       setUserAccount(response.data.userAccount);
-      setUserAccountRoles(response.data.userAccountRoles);
+      setUserAccountUserRoles(response.data.userAccountUserRoles);
       setRoles(response.data.roles);
     });
   }

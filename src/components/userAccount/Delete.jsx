@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Service from "./Service";
+import Service from "../Service";
 import Util from "../../util";
 
-export default function UserAccountDetail(props) {
+export default function UserAccountDelete(props) {
   const [userAccount, setUserAccount] = useState({});
   const [userAccountUserRoles, setUserAccountUserRoles] = useState([]);
 
@@ -14,15 +14,26 @@ export default function UserAccountDetail(props) {
   }, [props.match.params.id]);
 
   function get() {
-    return Service.get(props.match.params.id).then((response) => {
+    return Service.delete(props.match.params.id).then((response) => {
       setUserAccount(response.data.userAccount);
       setUserAccountUserRoles(response.data.userAccountUserRoles);
     });
   }
 
+  function remove(e) {
+    e.preventDefault();
+    Service.delete(props.match.params.id, userAccount)
+      .then(() => {
+        props.history.push(Util.getRef("/userAccount"));
+      })
+      .catch((e) => {
+        alert(e.response.data.message);
+      });
+  }
+
   return (
     <div className="container">
-      <form method="post">
+      <form method="post" onSubmit={remove}>
         <div className="row">
           <div className="col m6 l4">
             <label htmlFor="user_account_id">Id</label>
@@ -91,14 +102,9 @@ export default function UserAccountDetail(props) {
           </div>
           <div className="col s12">
             <Link className="btn-small grey" to={Util.getRef("/userAccount")}>
-              Back
+              Cancel
             </Link>
-            <Link
-              className="btn-small"
-              to={`/userAccount/edit/${userAccount.id}?ref=${encodeURIComponent(Util.getRef("/userAccount"))}`}
-            >
-              Edit
-            </Link>
+            <button className="btn-small red">Delete</button>
           </div>
         </div>
       </form>
